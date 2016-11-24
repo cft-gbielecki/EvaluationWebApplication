@@ -52,6 +52,7 @@ namespace EvaluationWebApplication
                 .AddEntityFrameworkStores<CFTDbContext>()
                 .AddDefaultTokenProviders();
 
+            //testCommit
             services.AddMvc();
 
             // Add application services.
