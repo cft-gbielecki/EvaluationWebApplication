@@ -52,6 +52,24 @@ namespace EvaluationWebApplication
                 .AddEntityFrameworkStores<CFTDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+
+                options.User.RequireUniqueEmail = false;
+            });
+
             //testCommit
             services.AddMvc();
 
