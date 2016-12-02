@@ -16,5 +16,8 @@ namespace EvaluationWebApplication.Models.CFT
         public string Surname { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime WorkSince { get; set; }
+        public bool IsAdministrator { get; set; }
+
+        public virtual ICollection<TimeEntry> TimeEntries { get; set; }
     }
 }

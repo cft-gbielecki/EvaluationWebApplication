@@ -8,9 +8,10 @@ using EvaluationWebApplication.Models.CFT;
 namespace EvaluationWebApplication.Migrations
 {
     [DbContext(typeof(CFTDbContext))]
-    partial class CFTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161202132549_AdmPropertyNavigationProperties")]
+    partial class AdmPropertyNavigationProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

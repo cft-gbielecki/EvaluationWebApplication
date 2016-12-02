@@ -73,6 +73,12 @@ namespace EvaluationWebApplication
             //testCommit
             services.AddMvc();
 
+            //authorization
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Iser",po)
+            //})
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

@@ -10,6 +10,8 @@ namespace EvaluationWebApplication.Models.CFT
 {
     public class CFTDbContext : IdentityDbContext<ApplicationUser>
     {
+        public CFTDbContext() : base()
+        { }
         public CFTDbContext(DbContextOptions<CFTDbContext> options) : base(options)
         { }
 
