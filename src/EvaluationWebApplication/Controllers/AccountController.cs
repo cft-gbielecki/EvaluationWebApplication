@@ -117,19 +117,21 @@ namespace EvaluationWebApplication.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     string email = model.Email;
-                    string surname = email.Substring(email.IndexOf('.')+1, email.IndexOf('@') - email.IndexOf('.')-1);
-                    var context = new CFTDbContext();
-                    context.Employees.Add(new Employee()
-                    { Email = email,
-                        IsAdministrator = false,
-                        WorkSince = DateTime.Parse(DateTime.Today.ToString()),
-                        FirstName = email.Substring(0, 1).ToUpper() + email.Substring(1, email.IndexOf('.')-1),
-                        Surname = surname.Substring(0, 1).ToUpper() + surname.Substring(1)
-                        //Surname = (model.Email.Substring(model.Email.IndexOf('.'), model.Email.IndexOf('@'))).First().ToString().ToUpper() +
-                        //(model.Email.Substring(model.Email.IndexOf('.'), model.Email.IndexOf('@'))).Skip(1)
-                    });
-                    context.SaveChanges();
-                    
+                    string surname = email.Substring(email.IndexOf('.') + 1, email.IndexOf('@') - email.IndexOf('.') - 1);
+                    using (var context = new CFTDbContext())
+                    {
+                        context.Employees.Add(new Employee()
+                        {
+                            Email = email,
+                            IsAdministrator = false,
+                            WorkSince = DateTime.Parse(DateTime.Today.ToString()),
+                            FirstName = email.Substring(0, 1).ToUpper() + email.Substring(1, email.IndexOf('.') - 1),
+                            Surname = surname.Substring(0, 1).ToUpper() + surname.Substring(1)
+                            //Surname = (model.Email.Substring(model.Email.IndexOf('.'), model.Email.IndexOf('@'))).First().ToString().ToUpper() +
+                            //(model.Email.Substring(model.Email.IndexOf('.'), model.Email.IndexOf('@'))).Skip(1)
+                        });
+                        context.SaveChanges();
+                    }
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToLocal(returnUrl);
