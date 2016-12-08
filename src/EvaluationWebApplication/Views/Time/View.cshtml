@@ -40,6 +40,7 @@
         </tr>
     </thead>
     <tbody>
+@if(Model != null) { 
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -78,6 +79,7 @@
                 <a asp-action="Delete" asp-route-id="@item.EntryID">Delete</a>
             </td>
         </tr>
+}
 }
     </tbody>
 </table>

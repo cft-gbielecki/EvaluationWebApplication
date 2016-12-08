@@ -16,11 +16,15 @@ namespace EvaluationWebApplication.Models.ViewModels
         private CFTDbContext context = new CFTDbContext();
         public TimeEntryViewModel()
         {
-            foreach(EvaluationWebApplication.Models.CFT.Services service in Enum.GetValues(typeof(EvaluationWebApplication.Models.CFT.Services)))
+            Services = new List<ServiceClass>();
+            Clients = new List<Clients>();
+            TimeEntries = new List<TimeEntry>();
+            foreach (EvaluationWebApplication.Models.CFT.Services service in Enum.GetValues(typeof(EvaluationWebApplication.Models.CFT.Services)))
             {
                 Services.Add(new ServiceClass(service));
             }
             Clients = context.Clients.ToList();
+            TimeEntries = context.TimeEntries.ToList();
         }
     }
 

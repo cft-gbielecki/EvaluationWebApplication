@@ -1,105 +1,25 @@
-﻿@model IEnumerable<EvaluationWebApplication.Models.CFT.TimeEntry>
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model EvaluationWebApplication.Models.ViewModels.TimeEntryViewModel
+
 @{
+    ViewData["Title"] = "Index";
 }
 
+<h2>TimeEntry</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>edit</th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Contract)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeSurname)
-            </th>
-            
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Service)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Time)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MakeUp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Project)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.EntryID">Edit</a> 
-                </td>
-                
-                
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contract)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Client)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeSurname)
-                </td>
-                
-                
-                <td>
-                    @Html.DisplayFor(modelItem => item.Service)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Time)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MakeUp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comment)
-                </td>
-                <td>
-                    @*<a asp-action="Edit" asp-route-id="@item.EntryID">Edit</a> |*@
-                    <a asp-action="Details" asp-route-id="@item.EntryID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.EntryID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@*<div>@Html.renderAction</div>*@
-
-@await Html.PartialAsync("Viewb",Model.FirstOrDefault())
+<div>
+    @*<h4>TimeEntryViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+    </dl>*@
+</div>
+<div>
+    @await Html.PartialAsync("_RetriveTimeView.cshtml", Model)
+</div>
+<div>
+   @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @await Html.PartialAsync("View", Model.TimeEntries)
+    
+</div>
+<div>
+    @await Html.PartialAsync("_CreateTimeEntryView", new EvaluationWebApplication.Models.CFT.TimeEntry() { EmployeeID = Model.Employee.EmployeeID })
+</div>
