@@ -1,4 +1,6 @@
-@model EvaluationWebApplication.Models.CFT.TimeEntry
+@model EvaluationWebApplication.Models.ViewModels.TimeEntryViewModel
+
+
 
 <form asp-action="_CreateTimeEntryView">
     <div class="form-horizontal">
@@ -6,6 +8,16 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
+            <label asp-for="Contracts" class="form-control"></label>
+            <div class="col-md-10">
+                @Html.DropDownList("Contracts", Model.EmployeeContracts)
+                @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
+               @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
+
+            </div>
+        </div>
+      
+        @*<div class="form-group">
             <label asp-for="Client" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Client" class="form-control" />
@@ -35,12 +47,12 @@
         </div>
         @Model.EmployeeID = ViewBag.EmployeeID
         @*<div class="form-group">
-            <label asp-for="EmployeeID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="EmployeeID" class ="form-control" asp-items="ViewBag.EmployeeID"></select>
-            </div>
-        </div>*@
-        <div class="form-group">
+                <label asp-for="EmployeeID" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="EmployeeID" class ="form-control" asp-items="ViewBag.EmployeeID"></select>
+                </div>
+            </div>*@
+        @*<div class="form-group">
             <label asp-for="EmployeeName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="EmployeeName" class="form-control" />
@@ -87,7 +99,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Add" class="btn btn-default" />
             </div>
-        </div>
+        </div>*@
     </div>
 </form>
 

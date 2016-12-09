@@ -8,9 +8,10 @@ using EvaluationWebApplication.Models.CFT;
 namespace EvaluationWebApplication.Migrations
 {
     [DbContext(typeof(CFTDbContext))]
-    partial class CFTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161209123733_ContractsDateUpdates")]
+    partial class ContractsDateUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -90,13 +91,7 @@ namespace EvaluationWebApplication.Migrations
 
                     b.Property<DateTime>("DateStart");
 
-                    b.Property<int>("EmployeeID");
-
                     b.HasKey("ContractID");
-
-                    b.HasIndex("ClientID");
-
-                    b.HasIndex("EmployeeID");
 
                     b.ToTable("Contracts");
                 });
@@ -264,19 +259,6 @@ namespace EvaluationWebApplication.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("EvaluationWebApplication.Models.CFT.Contracts", b =>
-                {
-                    b.HasOne("EvaluationWebApplication.Models.CFT.Clients", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EvaluationWebApplication.Models.CFT.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EvaluationWebApplication.Models.CFT.TimeEntry", b =>

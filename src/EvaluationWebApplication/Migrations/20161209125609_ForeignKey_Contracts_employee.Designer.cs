@@ -8,9 +8,10 @@ using EvaluationWebApplication.Models.CFT;
 namespace EvaluationWebApplication.Migrations
 {
     [DbContext(typeof(CFTDbContext))]
-    partial class CFTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161209125609_ForeignKey_Contracts_employee")]
+    partial class ForeignKey_Contracts_employee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -90,13 +91,9 @@ namespace EvaluationWebApplication.Migrations
 
                     b.Property<DateTime>("DateStart");
 
-                    b.Property<int>("EmployeeID");
-
                     b.HasKey("ContractID");
 
                     b.HasIndex("ClientID");
-
-                    b.HasIndex("EmployeeID");
 
                     b.ToTable("Contracts");
                 });
@@ -271,11 +268,6 @@ namespace EvaluationWebApplication.Migrations
                     b.HasOne("EvaluationWebApplication.Models.CFT.Clients", "Client")
                         .WithMany()
                         .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EvaluationWebApplication.Models.CFT.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

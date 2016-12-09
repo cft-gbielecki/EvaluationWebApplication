@@ -17,9 +17,9 @@
 </div>
 <div>
    @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
-    @await Html.PartialAsync("View", Model.TimeEntries)
+    @await Html.PartialAsync("_TimeEntriesView", Model.TimeEntries)
     
 </div>
 <div>
-    @await Html.PartialAsync("_CreateTimeEntryView", new EvaluationWebApplication.Models.CFT.TimeEntry() { EmployeeID = Model.Employee.EmployeeID })
+    @await Html.PartialAsync("_CreateTimeEntryView",Model)  @*new EvaluationWebApplication.Models.CFT.TimeEntry() { EmployeeID = Model.Employee.EmployeeID })*@
 </div>

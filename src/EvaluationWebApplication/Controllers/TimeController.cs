@@ -13,12 +13,13 @@ namespace EvaluationWebApplication.Controllers
     public class TimeController : Controller
     {
         private CFTDbContext context = new CFTDbContext();
-        private TimeEntryViewModel timeModel = new TimeEntryViewModel();
+        private TimeEntryViewModel timeModel;
         //private Employee employee;
 
         public IActionResult Index(string email)
         {
-            timeModel.Employee = context.Employees.FirstOrDefault(empl => empl.Email == email);
+            timeModel = new TimeEntryViewModel(context.Employees.FirstOrDefault(empl => empl.Email == email));
+            //timeModel.Employee = context.Employees.FirstOrDefault(empl => empl.Email == email);
             //List<TimeEntry> TimeEntries = new List<TimeEntry>();
             if (timeModel.Employee.TimeEntries != null && timeModel.TimeEntries.Count > 0)
                 timeModel.TimeEntries = timeModel.Employee.TimeEntries.Where(timeEntry => timeEntry.Date.Month == DateTime.Today.Month && timeEntry.Date.Year == DateTime.Today.Year).ToList();
