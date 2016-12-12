@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +10,15 @@ namespace EvaluationWebApplication.Models.CFT
 {
     public class ServiceClass
     {
+        [Key]
+        public int ServiceEntryID { get; set; }
         public Services ServiceType { get; set; }
         public bool IsBillable { get; set; }
         public bool IsCountsForRequired { get; set; }
         public bool IsCountForOT { get; set; }
         public string ServiceSuffix { get; private set; }
+        [ForeignKey("EntryId")]
+        public int EntryID { get; set; }
 
         public ServiceClass(Services serviceType)
         {

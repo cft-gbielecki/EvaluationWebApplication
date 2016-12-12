@@ -14,7 +14,7 @@ namespace EvaluationWebApplication.Models.ViewModels
         public List<Clients> Clients { get; set; }
         public List<ServiceClass> Services { get; set; }
         public List<Contracts> Contracts { get; set; }
-        public List<SelectListItem> EmployeeContracts { get; set; }
+        public _CreateTimeEntryViewModel CreateTimeEntry { get; set; }
 
         private CFTDbContext context = new CFTDbContext();
         public TimeEntryViewModel(Employee employee)
@@ -30,8 +30,25 @@ namespace EvaluationWebApplication.Models.ViewModels
             Clients = context.Clients.ToList();
             TimeEntries = context.TimeEntries.ToList();
             Contracts = context.Contracts.Where(x => x.EmployeeID == Employee.EmployeeID).ToList();
-            EmployeeContracts = new List<SelectListItem>();
+            CreateTimeEntry = new _CreateTimeEntryViewModel();
+            CreateTimeEntry.EmployeeContracts = new List<SelectListItem>();
             SetEmployeeContracts();
+            CreateTimeEntry.EmployeeServices = new List<SelectListItem>();
+            SetEmployeeServices();
+        }
+
+        private void SetEmployeeServices()
+        {
+            if (Services != null)
+            {
+                foreach(ServiceClass service in Services)
+                {
+                    CreateTimeEntry.EmployeeServices.Add(new SelectListItem {
+                        Text = String.Format("{0} {1}", service.ServiceSuffix, service.ServiceType.ToString()),
+                        Value = service.ServiceType.ToString()
+                    });
+                }
+            }
         }
 
         private void SetEmployeeContracts()
@@ -43,8 +60,8 @@ namespace EvaluationWebApplication.Models.ViewModels
                     if (contract.DateStart >= DateTime.Now && contract.DateFinish <= DateTime.Now)
                     {
                         string contract_string = String.Format("{0}: {1} ({2} - {3})",
-                            Clients.FirstOrDefault(client => client.ClientID == contract.ClientID).ClientName, contract.Contract, contract.DateStart, contract.DateFinish);
-                        EmployeeContracts.Add(new SelectListItem { Text = contract_string, Value = contract.ContractID.ToString() });
+                            Clients.FirstOrDefault(client => client.ClientID == contract.ClientID).ClientName, contract.Contract, contract.DateStart.Date.ToString(), contract.DateFinish.Date);
+                        CreateTimeEntry.EmployeeContracts.Add(new SelectListItem { Text = contract_string, Value = contract.ContractID.ToString() });
                     }
                 }
             }

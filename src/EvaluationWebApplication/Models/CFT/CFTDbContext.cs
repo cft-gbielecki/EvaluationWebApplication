@@ -20,6 +20,7 @@ namespace EvaluationWebApplication.Models.CFT
         public DbSet<Contracts> Contracts { get; set; }
         public DbSet<Clients> Clients { get; set; }
         public DbSet<TimeEntry> TimeEntries { get; set; }
+        public DbSet<ServiceClass> Service { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

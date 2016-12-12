@@ -25,5 +25,36 @@ namespace EvaluationWebApplication.Controllers
                 timeModel.TimeEntries = timeModel.Employee.TimeEntries.Where(timeEntry => timeEntry.Date.Month == DateTime.Today.Month && timeEntry.Date.Year == DateTime.Today.Year).ToList();
             return View(timeModel);
         }
+
+        [HttpPost]
+        public IActionResult Create(_CreateTimeEntryViewModel timeModelCreate)
+        {
+            TimeEntry timeEntry = new TimeEntry()
+            {
+                Date = timeModelCreate.TimeEntryDate,
+                EmployeeName = timeModel.Employee.FirstName,
+                EmployeeSurname = timeModel.Employee.SecondName,
+                Client = timeModel.Clients.FirstOrDefault(client => client.ClientName == timeModelCreate.TimeEntryContract.Substring(0, timeModelCreate.TimeEntryContract.IndexOf(':') - 1)).ClientName,
+                Comment = timeModelCreate.TimeEntryComment,
+                Contract = timeModelCreate.TimeEntryContract,
+                Employee = timeModel.Employee,
+                EmployeeID = timeModel.Employee.EmployeeID,
+                MakeUp = timeModelCreate.TimeEntryMakeUp,
+                Project = timeModelCreate.TimeEntryProject,
+                Service = timeModelCreate.TimeEntryService,
+                Time = timeModelCreate.TimeEntryTime
+            };
+            context.TimeEntries.Add(timeEntry);
+            context.SaveChanges();
+
+            ServiceClass serviceEntry = new ServiceClass(
+                (EvaluationWebApplication.Models.CFT.Services)Enum.Parse(typeof(EvaluationWebApplication.Models.CFT.Services),
+                            timeModelCreate.TimeEntryService.Substring(timeModelCreate.TimeEntryService.IndexOf(") ") + 2)));
+            serviceEntry.EntryID = timeEntry.EntryID;
+            context.Service.Add(serviceEntry);
+            context.SaveChanges();
+
+            return RedirectToAction("Index", timeModel.Employee.Email);
+        }
     }
 }
