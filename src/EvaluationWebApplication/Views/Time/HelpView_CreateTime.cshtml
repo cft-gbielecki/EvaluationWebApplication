@@ -1,0 +1,72 @@
+@model EvaluationWebApplication.Models.ViewModels._CreateTimeEntryViewModel
+
+<form asp-action="HelpView_CreateTime">
+    <div class="form-horizontal">
+        <h4>_CreateTimeEntryViewModel</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="TimeEntryDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeEntryDate" class="form-control" />
+                <span asp-validation-for="TimeEntryDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeEntryContract" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeEntryContract" class="form-control" />
+                <span asp-validation-for="TimeEntryContract" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeEntryService" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeEntryService" class="form-control" />
+                <span asp-validation-for="TimeEntryService" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeEntryTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeEntryTime" class="form-control" />
+                <span asp-validation-for="TimeEntryTime" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="TimeEntryMakeUp" />
+                    <label asp-for="TimeEntryMakeUp"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeEntryProject" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeEntryProject" class="form-control" />
+                <span asp-validation-for="TimeEntryProject" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeEntryComment" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeEntryComment" class="form-control" />
+                <span asp-validation-for="TimeEntryComment" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

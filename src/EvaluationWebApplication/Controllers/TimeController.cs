@@ -27,34 +27,41 @@ namespace EvaluationWebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(_CreateTimeEntryViewModel timeModelCreate)
+        public IActionResult Create(TimeEntryViewModel timeModelCreate)
         {
+            
+            //string sasa = timeModelCreate.CreateTimeEntry.TimeEntryContract.Substring(0, timeModelCreate.CreateTimeEntry.TimeEntryContract.IndexOf(':') - 1);
+            timeModel = new TimeEntryViewModel(timeModelCreate.Employee);
+
+
             TimeEntry timeEntry = new TimeEntry()
             {
-                Date = timeModelCreate.TimeEntryDate,
+                Date = timeModelCreate.CreateTimeEntry.TimeEntryDate,
                 EmployeeName = timeModel.Employee.FirstName,
-                EmployeeSurname = timeModel.Employee.SecondName,
-                Client = timeModel.Clients.FirstOrDefault(client => client.ClientName == timeModelCreate.TimeEntryContract.Substring(0, timeModelCreate.TimeEntryContract.IndexOf(':') - 1)).ClientName,
-                Comment = timeModelCreate.TimeEntryComment,
-                Contract = timeModelCreate.TimeEntryContract,
-                Employee = timeModel.Employee,
+                EmployeeSurname = timeModel.Employee.Surname,
+                Client = timeModel.Clients.FirstOrDefault(client => client.ClientID == timeModel.Contracts.FirstOrDefault(contract => timeModelCreate.CreateTimeEntry.TimeEntryContract == contract.ContractID.ToString()).ClientID).ClientName,
+                    // timemode timeModelCreate.CreateTimeEntry.TimeEntryContract == client.ClientID.ToString()).ClientName,
+                // timeModelCreate.CreateTimeEntry.TimeEntryContract.Substring(0, timeModelCreate.CreateTimeEntry.TimeEntryContract.IndexOf(':') - 1), //timeModelCreate.Clients.FirstOrDefault(client => client.ClientName == timeModelCreate.CreateTimeEntry.TimeEntryContract.Substring(0, timeModelCreate.CreateTimeEntry.TimeEntryContract.IndexOf(':') - 1)).ClientName,
+                Comment = timeModelCreate.CreateTimeEntry.TimeEntryComment,
+                Contract = timeModelCreate.CreateTimeEntry.TimeEntryContract,
+                //Employee = timeModel.Employee,
                 EmployeeID = timeModel.Employee.EmployeeID,
-                MakeUp = timeModelCreate.TimeEntryMakeUp,
-                Project = timeModelCreate.TimeEntryProject,
-                Service = timeModelCreate.TimeEntryService,
-                Time = timeModelCreate.TimeEntryTime
+                MakeUp = timeModelCreate.CreateTimeEntry.TimeEntryMakeUp,
+                Project = timeModelCreate.CreateTimeEntry.TimeEntryProject,
+                Service = timeModelCreate.CreateTimeEntry.TimeEntryService,
+                Time = timeModelCreate.CreateTimeEntry.TimeEntryTime
             };
             context.TimeEntries.Add(timeEntry);
             context.SaveChanges();
 
             ServiceClass serviceEntry = new ServiceClass(
                 (EvaluationWebApplication.Models.CFT.Services)Enum.Parse(typeof(EvaluationWebApplication.Models.CFT.Services),
-                            timeModelCreate.TimeEntryService.Substring(timeModelCreate.TimeEntryService.IndexOf(") ") + 2)));
+                            timeModelCreate.CreateTimeEntry.TimeEntryService));
             serviceEntry.EntryID = timeEntry.EntryID;
             context.Service.Add(serviceEntry);
             context.SaveChanges();
 
-            return RedirectToAction("Index", timeModel.Employee.Email);
+            return RedirectToAction("Index","Time",new { email = timeModelCreate.Employee.Email });
         }
     }
 }

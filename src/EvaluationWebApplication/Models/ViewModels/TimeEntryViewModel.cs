@@ -17,6 +17,9 @@ namespace EvaluationWebApplication.Models.ViewModels
         public _CreateTimeEntryViewModel CreateTimeEntry { get; set; }
 
         private CFTDbContext context = new CFTDbContext();
+
+        public TimeEntryViewModel() { }
+
         public TimeEntryViewModel(Employee employee)
         {
             Employee = employee;

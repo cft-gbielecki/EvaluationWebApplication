@@ -1,171 +1,108 @@
-@model EvaluationWebApplication.Models.ViewModels._CreateTimeEntryViewModel
+@model EvaluationWebApplication.Models.ViewModels.TimeEntryViewModel
 
 
 
-<form asp-action="_CreateTimeEntryView">
+<form asp-action="Create" asp-controller="Time" method="post">
     <div class="form-horizontal">
-        <h4>TimeEntry</h4>
+        <h4>_CreateTimeEntryViewModel</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="TimeEntryContract" class="form-control"></label>
+            <label asp-for="CreateTimeEntry.TimeEntryContract" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.DropDownList("Contracts", Model.EmployeeContracts)
+                <select asp-for="CreateTimeEntry.TimeEntryContract" asp-items="@Model.CreateTimeEntry.EmployeeContracts" class="list-group"></select>
+                @*@Html.DropDownList("Contracts", Model.EmployeeContracts)*@
                 @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
-               @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
-
+                @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
+               
             </div>
         </div>
-
-
         <div class="form-group">
-            <label asp-for="TimeEntryService" class="form-control"></label>
+            <label asp-for="CreateTimeEntry.TimeEntryService" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.DropDownList("Service", Model.EmployeeServices)
+                <select asp-for="CreateTimeEntry.TimeEntryService" asp-items="@Model.CreateTimeEntry.EmployeeServices" class="list-group"></select>
+                <span asp-validation-for="CreateTimeEntry.TimeEntryContract" class="text-danger" />
+                @*@Html.DropDownList("Service", Model.EmployeeServices)*@
                 @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
                 @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
 
             </div>
         </div>
+        
 
-        <div class="form-group">
-            <label asp-for="TimeEntryMakeUp" class="form-control"></label>
-            <div class="col-md-10">
-                @Html.CheckBox("Making-Up",false)
-                @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
-                @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
-
-            </div>
-        </div>
-      
-        <div class="form-group">
-            <label asp-for="TimeEntryDate" class="form-control"></label>
-            <div class="col-md-10">
-                    <input asp-for="TimeEntryDate" class="form-control" />
-                    <span asp-validation-for="TimeEntryDate" class="text-danger" />
-                @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
-                @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="TimeEntryTime" class="form-control"></label>
-            <div class="col-md-10">
-                <input asp-for="TimeEntryTime" class="form-control" /> hours
-                <span asp-validation-for="TimeEntryTime" class="text-danger" />
-                @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
-                @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="TimeEntryProject" class="form-control"></label>
-            <div class="col-md-10">
-                <input asp-for="TimeEntryProject" class="form-control" />
-                <span asp-validation-for="TimeEntryProject" class="text-danger" />
-                @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
-                @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
-
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="TimeEntryComment" class="form-control"></label>
-            <div class="col-md-10">
-                <input asp-for="TimeEntryComment" class="form-control" />
-                <span asp-validation-for="TimeEntryComment" class="text-danger" />
-                @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
-                @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@
-
-            </div>
-        </div>
         @*<div class="form-group">
-            <label asp-for="Client" class="col-md-2 control-label"></label>
+            <label asp-for="TimeEntryContract" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Client" class="form-control" />
-                <span asp-validation-for="Client" class="text-danger" />
+                <input asp-for="TimeEntryContract" class="form-control" />
+                <span asp-validation-for="TimeEntryContract" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Comment" class="col-md-2 control-label"></label>
+            <label asp-for="TimeEntryService" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Comment" class="form-control" />
-                <span asp-validation-for="Comment" class="text-danger" />
+                <input asp-for="TimeEntryService" class="form-control" />
+                <span asp-validation-for="TimeEntryService" class="text-danger" />
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <label asp-for="CreateTimeEntry.TimeEntryMakeUp" class="col-md-2 control-label"></label>
+            @*<div class="col-md-offset-2 col-md-10">*@
+                @*<div class="checkbox">*@
+                    <div class="col-md-10">
+                        <input asp-for="CreateTimeEntry.TimeEntryMakeUp" />
+                        @* <label asp-for="TimeEntryMakeUp"></label>*@
+                    </div>
+            @*</div>*@
+        </div>
+        <div class="form-group">
+            <label asp-for="CreateTimeEntry.TimeEntryDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CreateTimeEntry.TimeEntryDate" class="form-control" />
+                <span asp-validation-for="CreateTimeEntry.TimeEntryDate" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreateTimeEntry.TimeEntryTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CreateTimeEntry.TimeEntryTime" class="form-control" />
+                <span asp-validation-for="CreateTimeEntry.TimeEntryTime" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreateTimeEntry.TimeEntryProject" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CreateTimeEntry.TimeEntryProject" class="form-control" />
+                <span asp-validation-for="CreateTimeEntry.TimeEntryProject" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Contract" class="col-md-2 control-label"></label>
+            <label asp-for="CreateTimeEntry.TimeEntryComment" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Contract" class="form-control" />
-                <span asp-validation-for="Contract" class="text-danger" />
+                <input asp-for="CreateTimeEntry.TimeEntryComment" class="form-control" />
+                <span asp-validation-for="CreateTimeEntry.TimeEntryComment" class="text-danger" />
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Date" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger" />
-            </div>
-        </div>
-        @Model.EmployeeID = ViewBag.EmployeeID
-        @*<div class="form-group">
-                <label asp-for="EmployeeID" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <select asp-for="EmployeeID" class ="form-control" asp-items="ViewBag.EmployeeID"></select>
-                </div>
-            </div>*@
-        @*<div class="form-group">
-        <label asp-for="EmployeeName" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="EmployeeName" class="form-control" />
-            <span asp-validation-for="EmployeeName" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmployeeSurname" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="EmployeeSurname" class="form-control" />
-            <span asp-validation-for="EmployeeSurname" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <div class="checkbox">
-                <input asp-for="MakeUp" />
-                <label asp-for="MakeUp"></label>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Project" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Project" class="form-control" />
-            <span asp-validation-for="Project" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Service" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Service" class="form-control" />
-            <span asp-validation-for="Service" class="text-danger" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Time" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Time" class="form-control" />
-            <span asp-validation-for="Time" class="text-danger" />
-        </div>
-    </div>*@
+        
+        <div hidden="hidden">@Html.EditorFor(model=>model.Employee)</div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
+
+
+
+
+
+
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>
