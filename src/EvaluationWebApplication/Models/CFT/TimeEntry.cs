@@ -12,6 +12,7 @@ namespace EvaluationWebApplication.Models.CFT
         [Key]
         public int EntryID { get; set; }
         public DateTime Date { get; set; }
+        [Display(Name = "Employee")]
         public string EmployeeName { get; set; }
         public string EmployeeSurname { get; set; }
         public string Client { get; set; }
