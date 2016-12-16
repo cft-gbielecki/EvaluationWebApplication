@@ -15,11 +15,13 @@
 <div>
     @await Html.PartialAsync("_RetriveTimeView.cshtml", Model)
 </div>
+<dl class="dl-horizontal"></dl>
 <div>
    @* @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
     @await Html.PartialAsync("_TimeEntriesView", Model.TimeEntries)
     
 </div>
+<dl class="dl-horizontal"></dl>
 <div>
     @await Html.PartialAsync("_CreateTimeEntryView",Model)  @*new EvaluationWebApplication.Models.CFT.TimeEntry() { EmployeeID = Model.Employee.EmployeeID })*@
 </div>

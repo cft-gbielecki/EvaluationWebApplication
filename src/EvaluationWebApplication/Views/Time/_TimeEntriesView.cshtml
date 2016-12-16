@@ -1,5 +1,6 @@
 @model IEnumerable<EvaluationWebApplication.Models.CFT.TimeEntry>
 
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -41,7 +42,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Date))
+                @*@Html.DisplayFor(modelItem => item.Date)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeName)  
@@ -61,10 +63,10 @@
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MakeUp)
+                @Html.DisplayFor(modelItem => item.Project)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Project)
+                @Html.DisplayFor(modelItem => item.MakeUp)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)

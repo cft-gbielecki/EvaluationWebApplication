@@ -28,6 +28,9 @@ namespace EvaluationWebApplication.Controllers
             return View(timeModel);
         }
 
+
+
+
         [HttpPost]
         public IActionResult Create(TimeEntryViewModel timeModelCreate)
         {

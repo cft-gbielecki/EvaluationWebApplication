@@ -7,6 +7,34 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllClients)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllEmployeeServices) @*prawdkopodobnie bedzie trzeba usunac*@
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EmployeeList)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllEmployeeServices)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EndDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+                
+            
+        </tbody>
+    </table>
 </div>
