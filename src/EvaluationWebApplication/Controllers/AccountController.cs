@@ -106,6 +106,7 @@ namespace EvaluationWebApplication.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                string email = model.Email;
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -116,11 +117,11 @@ namespace EvaluationWebApplication.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    string email = model.Email;
+                    //string email = model.Email;
                     string surname = email.Substring(email.IndexOf('.') + 1, email.IndexOf('@') - email.IndexOf('.') - 1);
                     using (var context = new CFTDbContext())
                     {
-                        context.Employees.Add(new Employee()
+                        Employee newEmployee = new Employee()
                         {
                             Email = email,
                             IsAdministrator = false,
@@ -129,6 +130,24 @@ namespace EvaluationWebApplication.Controllers
                             Surname = surname.Substring(0, 1).ToUpper() + surname.Substring(1)
                             //Surname = (model.Email.Substring(model.Email.IndexOf('.'), model.Email.IndexOf('@'))).First().ToString().ToUpper() +
                             //(model.Email.Substring(model.Email.IndexOf('.'), model.Email.IndexOf('@'))).Skip(1)
+                        };
+                        context.Employees.Add(newEmployee);
+                        context.SaveChanges();
+                        context.Contracts.Add(new Contracts()
+                        {
+                            ClientID = 7,
+                            Contract = "Bench.F.Net",
+                            EmployeeID = newEmployee.EmployeeID,
+                            DateStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1),
+                            DateFinish = new DateTime(DateTime.Today.Year, 12, 1)
+                        });
+                        context.Contracts.Add(new Contracts()
+                        {
+                            ClientID = 7,
+                            Contract = "Euro.T.1",
+                            EmployeeID = newEmployee.EmployeeID,
+                            DateStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1),
+                            DateFinish = new DateTime(DateTime.Today.Year, 12, 1)
                         });
                         context.SaveChanges();
                     }

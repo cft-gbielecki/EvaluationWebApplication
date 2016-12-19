@@ -20,7 +20,7 @@
                     @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EmployeeList)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllEmployeeServices)
+                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllContracts)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.RetrieveTimeEntry.StartDate)
@@ -32,9 +32,52 @@
             </tr>
         </thead>
         <tbody>
-           
-                
+           <tr>
+               <td>
+                   <div class="form-group">
+                       <select asp-for="RetrieveTimeEntry.Client" asp-items="@Model.RetrieveTimeEntry.AllClients" class="list-group"></select>
+                       </div>
+</td>
+               <td>
+                   <div class="form-group">
+                       <select asp-for="RetrieveTimeEntry.Service" asp-items="@Model.RetrieveTimeEntry.AllEmployeeServices" class="list-group"></select>
+                   </div>
+               </td>
+               <td>
+                   <div class="form-group">
+                       <select asp-for="RetrieveTimeEntry.Employee" asp-items="@Model.RetrieveTimeEntry.EmployeeList" class="list-group"></select>
+                   </div>
+               </td>
+               <td>
+                   <div class="form-group">
+                       <select asp-for="RetrieveTimeEntry.Client" asp-items="@Model.RetrieveTimeEntry.AllClients" class="list-group"></select>
+                   </div>
+               </td>
+               <td>
+                   <div class="form-group">
+                       @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Model.RetrieveTimeEntry.StartDate))
+                   </div>
+               </td>
+               <td>
+                   <div class="form-group">
+                       @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Model.RetrieveTimeEntry.EndDate))
+                   </div>
+               </td>
+               <td>
+                   <div class="col-md-offset-2 col-md-10">
+                       <input type="submit" value="Retrieve" class="btn btn-default" />
+                   </div>
+               </td>
+           </tr>
+            
             
         </tbody>
     </table>
+    @*<div hidden="hidden">@Html.EditorFor(model => model.Employee)</div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>*@
 </div>

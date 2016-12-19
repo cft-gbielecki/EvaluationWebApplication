@@ -14,6 +14,10 @@ namespace EvaluationWebApplication.Models.ViewModels
         public List<SelectListItem> EmployeeList { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string Contract { get; set; }
+        public string Service { get; set; }
+        public string Client { get; set; }
+        public string Employee { get; set; }
 
 
         public _RetrieveTimeEntryViewModel()
@@ -21,6 +25,9 @@ namespace EvaluationWebApplication.Models.ViewModels
             CommonConstruction();
             StartDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
             EndDate = StartDate.AddMonths(1).AddDays(-1);
+            Contract = "ALL";
+            Service = "ALL";
+            Client = "ALL";
         }
 
         public _RetrieveTimeEntryViewModel(DateTime start, DateTime end)
