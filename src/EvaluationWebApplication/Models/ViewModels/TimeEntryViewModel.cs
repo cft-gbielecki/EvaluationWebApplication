@@ -21,6 +21,9 @@ namespace EvaluationWebApplication.Models.ViewModels
 
         public TimeEntryViewModel() { }
 
+        public TimeEntryViewModel(Employee employee, _RetrieveTimeEntryViewModel retrieveModel)
+        { }
+
         public TimeEntryViewModel(Employee employee) : this(employee, new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1), new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).AddDays(-1))
         {
             //DateTime firstDayOfThisMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
@@ -130,10 +133,13 @@ namespace EvaluationWebApplication.Models.ViewModels
             {
                 foreach (Contracts contract in Contracts)
                 {
-                    if (contract.DateStart >= DateTime.Now && contract.DateFinish <= DateTime.Now)
+                    if (contract.DateStart <= DateTime.Now && contract.DateFinish >= DateTime.Now)
                     {
                         string contract_string = String.Format("{0}: {1} ({2} - {3})",
-                            Clients.FirstOrDefault(client => client.ClientID == contract.ClientID).ClientName, contract.Contract, contract.DateStart.Date.ToString(), contract.DateFinish.Date);
+                            Clients.FirstOrDefault(client => client.ClientID == contract.ClientID).ClientName, 
+                            contract.Contract, 
+                            Convert.ToString(string.Format("{0:dd/MM/yyyy}", contract.DateStart.Date)),
+                            Convert.ToString(string.Format("{0:dd/MM/yyyy}", contract.DateFinish.Date)));
                         contractList.Add(new SelectListItem { Text = contract_string, Value = contract.ContractID.ToString() });
                     }
                 }

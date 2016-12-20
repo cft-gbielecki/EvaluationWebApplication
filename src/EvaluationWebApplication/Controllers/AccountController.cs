@@ -139,7 +139,7 @@ namespace EvaluationWebApplication.Controllers
                             Contract = "Bench.F.Net",
                             EmployeeID = newEmployee.EmployeeID,
                             DateStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1),
-                            DateFinish = new DateTime(DateTime.Today.Year, 12, 1)
+                            DateFinish = new DateTime(DateTime.Today.Year, 12, 31)
                         });
                         context.Contracts.Add(new Contracts()
                         {
@@ -147,7 +147,7 @@ namespace EvaluationWebApplication.Controllers
                             Contract = "Euro.T.1",
                             EmployeeID = newEmployee.EmployeeID,
                             DateStart = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1),
-                            DateFinish = new DateTime(DateTime.Today.Year, 12, 1)
+                            DateFinish = new DateTime(DateTime.Today.Year, 12, 31)
                         });
                         context.SaveChanges();
                     }

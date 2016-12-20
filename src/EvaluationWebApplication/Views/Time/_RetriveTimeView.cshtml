@@ -1,7 +1,7 @@
 @model EvaluationWebApplication.Models.ViewModels.TimeEntryViewModel
 
 <div>
-    <h4>TimeEntryViewModel</h4>
+    @*<h4>TimeEntryViewModel</h4>*@
     <hr />
     <dl class="dl-horizontal">
     </dl>
@@ -50,7 +50,7 @@
                </td>
                <td>
                    <div class="form-group">
-                       <select asp-for="RetrieveTimeEntry.Client" asp-items="@Model.RetrieveTimeEntry.AllClients" class="list-group"></select>
+                       <select asp-for="RetrieveTimeEntry.Client" asp-items="@Model.RetrieveTimeEntry.AllContracts" class="list-group"></select>
                    </div>
                </td>
                <td>

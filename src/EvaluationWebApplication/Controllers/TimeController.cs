@@ -34,10 +34,7 @@ namespace EvaluationWebApplication.Controllers
         [HttpPost]
         public IActionResult Create(TimeEntryViewModel timeModelCreate)
         {
-
-            //string sasa = timeModelCreate.CreateTimeEntry.TimeEntryContract.Substring(0, timeModelCreate.CreateTimeEntry.TimeEntryContract.IndexOf(':') - 1);
             timeModel = new TimeEntryViewModel(timeModelCreate.Employee);
-
 
             TimeEntry timeEntry = new TimeEntry()
             {
@@ -78,6 +75,13 @@ namespace EvaluationWebApplication.Controllers
             context.TimeEntries.Remove(timeEntry);
             context.SaveChanges();
             return RedirectToAction("Index", "Time", new { email = employeeEmail });
+        }
+
+        public IActionResult Retrieve(_RetrieveTimeEntryViewModel retrieveModel)
+        {
+            new 
+            timeModel
+            return View("Index");
         }
     }
 }
