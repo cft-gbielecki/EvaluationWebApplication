@@ -21,34 +21,48 @@ namespace EvaluationWebApplication.Models.ViewModels
 
         public TimeEntryViewModel() { }
 
-        public TimeEntryViewModel(Employee employee, _RetrieveTimeEntryViewModel retrieveModel)
-        { }
+        public TimeEntryViewModel(_RetrieveTimeEntryViewModel retrieveModel)
+        {
+            ConstructClass(context.Employees.FirstOrDefault(empl => retrieveModel.EmployeeId == empl.EmployeeID), retrieveModel.StartDate, retrieveModel.EndDate);
+            RetrieveTimeEntry = new _RetrieveTimeEntryViewModel(retrieveModel.StartDate, retrieveModel.EndDate);
+            if (retrieveModel.Contract != "ALL")
+                RetrieveTimeEntry.Contract = context.Contracts.FirstOrDefault(contract => contract.ContractID.ToString() == retrieveModel.Contract).Contract;
+            if (retrieveModel.Service != "ALL")
+                RetrieveTimeEntry.Service = retrieveModel.Service;
+            if (retrieveModel.Client != "ALL")
+                RetrieveTimeEntry.Client = context.Clients.FirstOrDefault(client => client.ClientID.ToString() == retrieveModel.Client).ClientName;
+            RetrieveTimeEntry.Employee = retrieveModel.Employee;
+            FillRetrieveTimeEntry();
+            //RetrieveTimeEntry. = retrieveModel;
+            //if(retrieveModel.Employee == "ALL")
+
+        }
 
         public TimeEntryViewModel(Employee employee) : this(employee, new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1), new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(1).AddDays(-1))
         {
-            //DateTime firstDayOfThisMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            //DateTime lastDayOfThisMonth = firstDayOfThisMonth.AddMonths(1).AddDays(-1);
-            //Employee = employee;
-            //Services = new List<ServiceClass>();
-            //Clients = new List<Clients>();
-            //TimeEntries = new List<TimeEntry>();
-            //foreach (EvaluationWebApplication.Models.CFT.Services service in Enum.GetValues(typeof(EvaluationWebApplication.Models.CFT.Services)))
-            //{
-            //    Services.Add(new ServiceClass(service));
-            //}
-            //Clients = context.Clients.ToList();
-            //TimeEntries = context.TimeEntries.Where(te => te.Date > firstDayOfThisMonth && te.Date < lastDayOfThisMonth).ToList();
-            //Contracts = context.Contracts.Where(x => x.EmployeeID == Employee.EmployeeID).ToList();
-            //CreateTimeEntry = new _CreateTimeEntryViewModel();
-            //CreateTimeEntry.EmployeeContracts = new List<SelectListItem>();
-            //CreateTimeEntry.EmployeeContracts = SetEmployeeContracts(CreateTimeEntry.EmployeeContracts);
-            //CreateTimeEntry.EmployeeServices = new List<SelectListItem>();
-            //CreateTimeEntry.EmployeeServices = SetEmployeeServices(CreateTimeEntry.EmployeeServices);
-            //RetrieveTimeEntry = new _RetrieveTimeEntryViewModel(firstDayOfThisMonth, lastDayOfThisMonth);
-            //FillRetrieveTimeEntry();
         }
 
         public TimeEntryViewModel(Employee employee, DateTime start, DateTime end)
+        {
+            ConstructClass(employee, start, end);
+            RetrieveTimeEntry = new _RetrieveTimeEntryViewModel(start, end);
+            FillRetrieveTimeEntry();
+        }
+
+        private void FillRetrieveTimeEntry()
+        {
+            //RetrieveTimeEntry.SetEmployee(Employee.FirstName, Employee.Surname);
+            RetrieveTimeEntry.AllContracts = SetEmployeeContracts(RetrieveTimeEntry.AllContracts);
+            RetrieveTimeEntry.AllEmployeeServices = SetEmployeeServices(RetrieveTimeEntry.AllEmployeeServices);
+            RetrieveTimeEntry.AllClients = SetClients(RetrieveTimeEntry.AllClients);
+            RetrieveTimeEntry.EmployeeId = Employee.EmployeeID;
+            if (Employee.IsAdministrator == true)
+                RetrieveTimeEntry.EmployeeList = GatherAllEmployees(RetrieveTimeEntry.EmployeeList);
+            else
+                RetrieveTimeEntry.EmployeeList = GatherEmployee(RetrieveTimeEntry.EmployeeList);
+        }
+
+        private void ConstructClass(Employee employee, DateTime start, DateTime end)
         {
             Employee = employee;
             Services = new List<ServiceClass>();
@@ -66,20 +80,6 @@ namespace EvaluationWebApplication.Models.ViewModels
             CreateTimeEntry.EmployeeContracts = SetEmployeeContracts(CreateTimeEntry.EmployeeContracts);
             CreateTimeEntry.EmployeeServices = new List<SelectListItem>();
             CreateTimeEntry.EmployeeServices = SetEmployeeServices(CreateTimeEntry.EmployeeServices);
-            RetrieveTimeEntry = new _RetrieveTimeEntryViewModel(start, end);
-            FillRetrieveTimeEntry();
-        }
-
-        private void FillRetrieveTimeEntry()
-        {
-            //RetrieveTimeEntry.SetEmployee(Employee.FirstName, Employee.Surname);
-            RetrieveTimeEntry.AllContracts = SetEmployeeContracts(RetrieveTimeEntry.AllContracts);
-            RetrieveTimeEntry.AllEmployeeServices = SetEmployeeServices(RetrieveTimeEntry.AllEmployeeServices);
-            RetrieveTimeEntry.AllClients = SetClients(RetrieveTimeEntry.AllClients);
-            if (Employee.IsAdministrator == true)
-                GatherAllEmployees(RetrieveTimeEntry.EmployeeList);
-            else
-                GatherEmployee(RetrieveTimeEntry.EmployeeList);
         }
 
         private List<SelectListItem> GatherAllEmployees(List<SelectListItem> employeeList)
@@ -94,7 +94,7 @@ namespace EvaluationWebApplication.Models.ViewModels
         {
             return new SelectListItem()
             {
-                Value = empl.EmployeeID.ToString(),
+                Value = string.Format("{0}, {1}", empl.FirstName, empl.Surname),
                 Text = string.Format("{0}, {1}", empl.FirstName, empl.Surname)
             };
         }
@@ -103,7 +103,7 @@ namespace EvaluationWebApplication.Models.ViewModels
         {
             employeeList.Add(new SelectListItem
             {
-                Value = "0",
+                Value = "ALL",
                 Text = "ALL"
             });
             if (!Employee.IsAdministrator)
@@ -136,8 +136,8 @@ namespace EvaluationWebApplication.Models.ViewModels
                     if (contract.DateStart <= DateTime.Now && contract.DateFinish >= DateTime.Now)
                     {
                         string contract_string = String.Format("{0}: {1} ({2} - {3})",
-                            Clients.FirstOrDefault(client => client.ClientID == contract.ClientID).ClientName, 
-                            contract.Contract, 
+                            Clients.FirstOrDefault(client => client.ClientID == contract.ClientID).ClientName,
+                            contract.Contract,
                             Convert.ToString(string.Format("{0:dd/MM/yyyy}", contract.DateStart.Date)),
                             Convert.ToString(string.Format("{0:dd/MM/yyyy}", contract.DateFinish.Date)));
                         contractList.Add(new SelectListItem { Text = contract_string, Value = contract.ContractID.ToString() });

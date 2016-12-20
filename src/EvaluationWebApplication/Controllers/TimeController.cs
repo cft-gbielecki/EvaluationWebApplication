@@ -77,11 +77,37 @@ namespace EvaluationWebApplication.Controllers
             return RedirectToAction("Index", "Time", new { email = employeeEmail });
         }
 
+        [HttpPost]
         public IActionResult Retrieve(_RetrieveTimeEntryViewModel retrieveModel)
         {
-            new 
-            timeModel
-            return View("Index");
+            Employee employee = context.Employees.FirstOrDefault(empl => empl.EmployeeID == retrieveModel.EmployeeId);
+            string employeeFirstName = string.Empty;
+            string employeeSurname = string.Empty;
+            if(retrieveModel.Employee != "ALL")
+            {
+                employeeFirstName = retrieveModel.Employee.Substring(0, retrieveModel.Employee.IndexOf(',') );
+                employeeSurname = retrieveModel.Employee.Substring(retrieveModel.Employee.IndexOf(',') + 1).Trim();
+            }
+            timeModel = new TimeEntryViewModel(retrieveModel);
+            if (timeModel.TimeEntries.Count > 0)
+            {
+                if (retrieveModel.Client != "ALL")
+                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.Client == retrieveModel.Client).ToList();
+                if (retrieveModel.Contract != "ALL")
+                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.Contract == retrieveModel.Contract).ToList();
+                if (retrieveModel.Employee != "ALL" && !employee.IsAdministrator)
+                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.EmployeeID == retrieveModel.EmployeeId).ToList();
+                if (retrieveModel.Employee != "ALL" && employee.IsAdministrator)
+                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.EmployeeName == employeeFirstName && te.EmployeeSurname == employeeSurname).ToList();
+                if (retrieveModel.Service != "ALL")
+                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.Service == retrieveModel.Service).ToList();
+                //timeModel.TimeEntries = timeModel.TimeEntries.Where(entry => entry.EmployeeID == timeModel.Employee.EmployeeID).ToList();// .TimeEntries.Where(timeEntry => timeEntry.Date.Month == DateTime.Today.Month && timeEntry.Date.Year == DateTime.Today.Year).ToList();
+            }
+            else
+            { 
+                timeModel.TimeEntries = new List<TimeEntry>();
+            }
+            return View("Index",timeModel);
         }
     }
 }

@@ -21,7 +21,7 @@
             <label asp-for="CreateTimeEntry.TimeEntryService" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="CreateTimeEntry.TimeEntryService" asp-items="@Model.CreateTimeEntry.EmployeeServices" class="list-group"></select>
-                <span asp-validation-for="CreateTimeEntry.TimeEntryContract" class="text-danger" />
+                <span asp-validation-for="CreateTimeEntry.TimeEntryService" class="text-danger" />
                 @*@Html.DropDownList("Service", Model.EmployeeServices)*@
                 @*<select asp-for="EmployeeContracts.Values" class="list-group" asp-items="@(new SelectList(Model.EmployeeContracts)) />*@
                 @* @Html.ListBoxFor("Contracts", new SelectList(Model.EmployeeContracts, "key", "value"))*@

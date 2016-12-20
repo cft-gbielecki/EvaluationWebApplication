@@ -18,6 +18,7 @@ namespace EvaluationWebApplication.Models.ViewModels
         public string Service { get; set; }
         public string Client { get; set; }
         public string Employee { get; set; }
+        public int EmployeeId { get; set; }
 
 
         public _RetrieveTimeEntryViewModel()
@@ -28,6 +29,7 @@ namespace EvaluationWebApplication.Models.ViewModels
             Contract = "ALL";
             Service = "ALL";
             Client = "ALL";
+            Employee = "ALL";
         }
 
         public _RetrieveTimeEntryViewModel(DateTime start, DateTime end)
@@ -46,9 +48,9 @@ namespace EvaluationWebApplication.Models.ViewModels
             AllContracts = new List<SelectListItem>();
             AllEmployeeServices = new List<SelectListItem>();
             AllClients = new List<SelectListItem>();
-            AllContracts.Add(new SelectListItem() { Value = "0", Text = "ALL" });
-            AllEmployeeServices.Add(new SelectListItem() { Value = "0", Text = "ALL" });
-            AllClients.Add(new SelectListItem() { Value = "0", Text = "ALL" });
+            AllContracts.Add(new SelectListItem() { Value = "ALL", Text = "ALL" });
+            AllEmployeeServices.Add(new SelectListItem() { Value = "ALL", Text = "ALL" });
+            AllClients.Add(new SelectListItem() { Value = "ALL", Text = "ALL" });
             EmployeeList = new List<SelectListItem>();
         }
 

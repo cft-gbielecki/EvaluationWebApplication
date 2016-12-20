@@ -6,78 +6,86 @@
     <dl class="dl-horizontal">
     </dl>
 </div>
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllClients)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllEmployeeServices) @*prawdkopodobnie bedzie trzeba usunac*@
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EmployeeList)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllContracts)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.StartDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EndDate)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-           <tr>
-               <td>
-                   <div class="form-group">
-                       <select asp-for="RetrieveTimeEntry.Client" asp-items="@Model.RetrieveTimeEntry.AllClients" class="list-group"></select>
-                       </div>
-</td>
-               <td>
-                   <div class="form-group">
-                       <select asp-for="RetrieveTimeEntry.Service" asp-items="@Model.RetrieveTimeEntry.AllEmployeeServices" class="list-group"></select>
-                   </div>
-               </td>
-               <td>
-                   <div class="form-group">
-                       <select asp-for="RetrieveTimeEntry.Employee" asp-items="@Model.RetrieveTimeEntry.EmployeeList" class="list-group"></select>
-                   </div>
-               </td>
-               <td>
-                   <div class="form-group">
-                       <select asp-for="RetrieveTimeEntry.Client" asp-items="@Model.RetrieveTimeEntry.AllContracts" class="list-group"></select>
-                   </div>
-               </td>
-               <td>
-                   <div class="form-group">
-                       @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Model.RetrieveTimeEntry.StartDate))
-                   </div>
-               </td>
-               <td>
-                   <div class="form-group">
-                       @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Model.RetrieveTimeEntry.EndDate))
-                   </div>
-               </td>
-               <td>
-                   <div class="col-md-offset-2 col-md-10">
-                       <input type="submit" value="Retrieve" class="btn btn-default" />
-                   </div>
-               </td>
-           </tr>
-            
-            
-        </tbody>
-    </table>
-    @*<div hidden="hidden">@Html.EditorFor(model => model.Employee)</div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>*@
-</div>
+<form asp-action="Retrieve" asp-controller="Time" method="post" asp-route-start="@Model.RetrieveTimeEntry.StartDate" asp-route-end="@Model.RetrieveTimeEntry.EndDate">
+    @*<input type="hidden" asp-for="RetrieveTimeEntry" name="retrieveModel" />*@
+    <div hidden="hidden">@Html.EditorFor(model => model.RetrieveTimeEntry)</div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllClients)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllEmployeeServices) @*prawdkopodobnie bedzie trzeba usunac*@
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EmployeeList)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RetrieveTimeEntry.AllContracts)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RetrieveTimeEntry.StartDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RetrieveTimeEntry.EndDate)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="RetrieveTimeEntry.Client" asp-items="Model.RetrieveTimeEntry.AllClients" class="list-group" name="Client"></select>
+                            <span asp-validation-for="CreateTimeEntry.TimeEntryContract" class="text-danger" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="RetrieveTimeEntry.Service" asp-items="Model.RetrieveTimeEntry.AllEmployeeServices" class="list-group" name="Service"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="RetrieveTimeEntry.Employee" asp-items="Model.RetrieveTimeEntry.EmployeeList" class="list-group" name="Employee"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="RetrieveTimeEntry.Client" asp-items="Model.RetrieveTimeEntry.AllContracts" class="list-group" name="Client"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Model.RetrieveTimeEntry.StartDate))
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Model.RetrieveTimeEntry.EndDate))
+                        </div>
+                    </td>
+                    <td>
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Retrieve" class="btn btn-default" />
+                        </div>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+        <input type="hidden" asp-for="RetrieveTimeEntry.EmployeeId" name="EmployeeId" />
+        @*<div hidden="hidden">@Html.EditorFor(model => model.Employee)</div>*@
+        @*<div hidden="hidden">@Html.EditorFor(model => model.Employee)</div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>*@
+    </div>
+</form>
