@@ -19,8 +19,6 @@ namespace EvaluationWebApplication.Controllers
         public IActionResult Index(string email)
         {
             timeModel = new TimeEntryViewModel(context.Employees.FirstOrDefault(empl => empl.Email == email));
-            //timeModel.Employee = context.Employees.FirstOrDefault(empl => empl.Email == email);
-            //List<TimeEntry> TimeEntries = new List<TimeEntry>();
             if (timeModel.TimeEntries.Count > 0)
                 timeModel.TimeEntries = timeModel.TimeEntries.Where(entry => entry.EmployeeID == timeModel.Employee.EmployeeID).ToList();// .TimeEntries.Where(timeEntry => timeEntry.Date.Month == DateTime.Today.Month && timeEntry.Date.Year == DateTime.Today.Year).ToList();
             else
@@ -42,27 +40,30 @@ namespace EvaluationWebApplication.Controllers
                 EmployeeName = timeModel.Employee.FirstName,
                 EmployeeSurname = timeModel.Employee.Surname,
                 Client = timeModel.Clients.FirstOrDefault(client => client.ClientID == timeModel.Contracts.FirstOrDefault(contract => timeModelCreate.CreateTimeEntry.TimeEntryContract == contract.ContractID.ToString()).ClientID).ClientName,
-                // timemode timeModelCreate.CreateTimeEntry.TimeEntryContract == client.ClientID.ToString()).ClientName,
-                // timeModelCreate.CreateTimeEntry.TimeEntryContract.Substring(0, timeModelCreate.CreateTimeEntry.TimeEntryContract.IndexOf(':') - 1), //timeModelCreate.Clients.FirstOrDefault(client => client.ClientName == timeModelCreate.CreateTimeEntry.TimeEntryContract.Substring(0, timeModelCreate.CreateTimeEntry.TimeEntryContract.IndexOf(':') - 1)).ClientName,
                 Comment = timeModelCreate.CreateTimeEntry.TimeEntryComment,
                 Contract = timeModelCreate.CreateTimeEntry.TimeEntryContract,
-                //Employee = timeModel.Employee,
                 EmployeeID = timeModel.Employee.EmployeeID,
                 MakeUp = timeModelCreate.CreateTimeEntry.TimeEntryMakeUp,
                 Project = timeModelCreate.CreateTimeEntry.TimeEntryProject,
                 Service = timeModelCreate.CreateTimeEntry.TimeEntryService,
                 Time = timeModelCreate.CreateTimeEntry.TimeEntryTime
             };
-            context.TimeEntries.Add(timeEntry);
-            context.SaveChanges();
+            if (context.TimeEntries.FirstOrDefault(te => te.EmployeeID == timeEntry.EmployeeID && te.Date == timeEntry.Date) != null)
+            {
+            }
+            else
+            {
+                ViewData["EntryExists"] = "";
+                context.TimeEntries.Add(timeEntry);
+                context.SaveChanges();
 
-            ServiceClass serviceEntry = new ServiceClass(
-                (EvaluationWebApplication.Models.CFT.Services)Enum.Parse(typeof(EvaluationWebApplication.Models.CFT.Services),
-                            timeModelCreate.CreateTimeEntry.TimeEntryService));
-            serviceEntry.EntryID = timeEntry.EntryID;
-            context.Service.Add(serviceEntry);
-            context.SaveChanges();
-
+                ServiceClass serviceEntry = new ServiceClass(
+                    (EvaluationWebApplication.Models.CFT.Services)Enum.Parse(typeof(EvaluationWebApplication.Models.CFT.Services),
+                                timeModelCreate.CreateTimeEntry.TimeEntryService));
+                serviceEntry.EntryID = timeEntry.EntryID;
+                context.Service.Add(serviceEntry);
+                context.SaveChanges();
+            }
             return RedirectToAction("Index", "Time", new { email = timeModelCreate.Employee.Email });
         }
         public IActionResult Delete(int id)
@@ -83,19 +84,22 @@ namespace EvaluationWebApplication.Controllers
             Employee employee = context.Employees.FirstOrDefault(empl => empl.EmployeeID == retrieveModel.EmployeeId);
             string employeeFirstName = string.Empty;
             string employeeSurname = string.Empty;
-            if(retrieveModel.Employee != "ALL")
+            if (employee.IsAdministrator && retrieveModel.Employee != "ALL")
             {
-                employeeFirstName = retrieveModel.Employee.Substring(0, retrieveModel.Employee.IndexOf(',') );
+                employeeFirstName = retrieveModel.Employee.Substring(0, retrieveModel.Employee.IndexOf(','));
                 employeeSurname = retrieveModel.Employee.Substring(retrieveModel.Employee.IndexOf(',') + 1).Trim();
             }
             timeModel = new TimeEntryViewModel(retrieveModel);
             if (timeModel.TimeEntries.Count > 0)
             {
                 if (retrieveModel.Client != "ALL")
-                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.Client == retrieveModel.Client).ToList();
+                {
+                    Clients client = context.Clients.FirstOrDefault(cli => cli.ClientID.ToString() == retrieveModel.Client);
+                    timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.Client == client.ClientName).ToList();
+                }
                 if (retrieveModel.Contract != "ALL")
                     timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.Contract == retrieveModel.Contract).ToList();
-                if (retrieveModel.Employee != "ALL" && !employee.IsAdministrator)
+                if (!employee.IsAdministrator)
                     timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.EmployeeID == retrieveModel.EmployeeId).ToList();
                 if (retrieveModel.Employee != "ALL" && employee.IsAdministrator)
                     timeModel.TimeEntries = timeModel.TimeEntries.Where(te => te.EmployeeName == employeeFirstName && te.EmployeeSurname == employeeSurname).ToList();
@@ -104,10 +108,19 @@ namespace EvaluationWebApplication.Controllers
                 //timeModel.TimeEntries = timeModel.TimeEntries.Where(entry => entry.EmployeeID == timeModel.Employee.EmployeeID).ToList();// .TimeEntries.Where(timeEntry => timeEntry.Date.Month == DateTime.Today.Month && timeEntry.Date.Year == DateTime.Today.Year).ToList();
             }
             else
-            { 
+            {
                 timeModel.TimeEntries = new List<TimeEntry>();
             }
-            return View("Index",timeModel);
+            return View("Index", timeModel);
         }
+
+        public IActionResult Edit(int id)
+        {
+            TimeEntry timeEntry = context.TimeEntries.FirstOrDefault(te => te.EntryID == id);
+
+            return View("Index", timeModel);
+        }
+
+
     }
 }

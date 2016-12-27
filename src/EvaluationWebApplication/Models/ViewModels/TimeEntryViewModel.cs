@@ -73,7 +73,7 @@ namespace EvaluationWebApplication.Models.ViewModels
                 Services.Add(new ServiceClass(service));
             }
             Clients = context.Clients.ToList();
-            TimeEntries = context.TimeEntries.Where(te => te.Date > start && te.Date < end).ToList();
+            TimeEntries = context.TimeEntries.Where(te => te.Date >= start && te.Date <= end).OrderBy(te => te.Date).ToList();
             Contracts = context.Contracts.Where(x => x.EmployeeID == Employee.EmployeeID).ToList();
             CreateTimeEntry = new _CreateTimeEntryViewModel();
             CreateTimeEntry.EmployeeContracts = new List<SelectListItem>();
